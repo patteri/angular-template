@@ -1,0 +1,11 @@
+.app {
+  text-align: center;
+}
+
+.app ul.nav {
+  margin-top: 20px;
+}
+
+.app .container {
+  margin-top: 10px;
+}
