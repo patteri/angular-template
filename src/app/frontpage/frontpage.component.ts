@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ContentService } from '../services/content.service';
+import { ListItem } from '../models/listitem';
 
 @Component({
   selector: 'app-frontpage',
@@ -7,8 +8,8 @@ import { ContentService } from '../services/content.service';
   styleUrls: ['./frontpage.component.css']
 })
 export class FrontpageComponent implements OnInit {
-  header = 'Header';
-  items: string[] = [];
+  items: ListItem[] = [];
+  selectedItem: ListItem;
   inputText = '';
   savedText = '';
 
@@ -19,8 +20,22 @@ export class FrontpageComponent implements OnInit {
       .then(result => this.items = result);
   }
 
-  save(): void {
-    this.savedText = `Value '${this.inputText}' was saved!`;
+  itemSelected(item: ListItem) {
+    this.selectedItem = item;
+  }
+
+  addItem(): void {
+    this.contentService.addItem(new ListItem(false, this.inputText))
+      .then(result => {
+        this.items = result;
+        this.savedText = `Value '${this.inputText}' was added!`;
+        this.inputText = '';
+      });
+  }
+
+  removeItem(item: ListItem) {
+    this.contentService.removeItem(this.items.indexOf(item))
+      .then(result => this.items = result);
   }
 
 }
